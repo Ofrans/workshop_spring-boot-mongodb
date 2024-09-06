@@ -1,6 +1,7 @@
 package com.compasso.workshopmongo.resources;
 
 import com.compasso.workshopmongo.domain.User;
+import com.compasso.workshopmongo.domain.Post;
 import com.compasso.workshopmongo.dto.UserDTO;
 import com.compasso.workshopmongo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping(value = "/users")
@@ -55,5 +57,11 @@ public class UserResource {
         user = service.update(user);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value = "/{id}/posts", method = RequestMethod.GET)
+    public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
+        User user = service.findById(id);
+        return ResponseEntity.ok().body(user.getPosts());
     }
 }
